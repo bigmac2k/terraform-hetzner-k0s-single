@@ -1,0 +1,38 @@
+apiVersion: k0sctl.k0sproject.io/v1beta1
+kind: Cluster
+metadata:
+  name: ${clustername}
+spec:
+  hosts:
+  - ssh:
+      address: ${externalAddress}
+      user: root
+      port: 22
+    role: controller+worker
+
+  k0s:
+    version: ${version}
+    config:
+      kind: Cluster
+      metadata:
+        name: k0s
+      spec:
+        network:
+          provider: calico
+          calico:
+            wireguard: true
+        api:
+          externalAddress: ${externalAddress}
+          sans:
+            - ${externalAddress}
+          extraArgs:
+            feature-gates: "ReadWriteOncePod=true"
+        controllerManager:
+          extraArgs:
+            feature-gates: "ReadWriteOncePod=true"
+        workerProfiles:
+          - name: custom-role
+            values:
+              key: featureGates
+              mapping:
+                innerKey: "ReadWriteOncePod=true"
