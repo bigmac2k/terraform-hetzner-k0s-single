@@ -1,0 +1,10 @@
+# ingressClass: 
+staging: true
+# email: 
+privateKeyRef: issuer-account-key
+solvers: |
+  - http01:
+      ingress:
+        serviceType: ClusterIP
+
+additionalYaml: |
