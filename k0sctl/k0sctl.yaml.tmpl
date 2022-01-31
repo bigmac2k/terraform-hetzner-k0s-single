@@ -17,22 +17,7 @@ spec:
       metadata:
         name: k0s
       spec:
-        network:
-          provider: calico
-          calico:
-            wireguard: true
         api:
           externalAddress: ${externalAddress}
           sans:
             - ${externalAddress}
-          extraArgs:
-            feature-gates: "ReadWriteOncePod=true"
-        controllerManager:
-          extraArgs:
-            feature-gates: "ReadWriteOncePod=true"
-        workerProfiles:
-          - name: custom-role
-            values:
-              key: featureGates
-              mapping:
-                innerKey: "ReadWriteOncePod=true"
